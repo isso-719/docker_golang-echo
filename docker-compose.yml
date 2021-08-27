@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  app:
+    build: .
+    container_name: go_app
+    ports:
+      - 8080:8080
+    stdin_open: true
+  db:
+    container_name: go_db
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db-store:/var/lib/mysql
+      - ./logs:/var/log/mysql
+    environment:
+      - MYSQL_DATABASE=go_db
+      - MYSQL_ROOT_PASSWORD=password
+      - TZ=Asia/Tokyo
+    ports:
+      - 3306:3306
+volumes:
+  db-store:
